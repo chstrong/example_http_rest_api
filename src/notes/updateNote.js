@@ -1,6 +1,6 @@
 "use strict";
 
-const { DynamoDBClient, PutItemCommand } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBClient, UpdateItemCommand } = require("@aws-sdk/client-dynamodb");
 
 const updateNote = async (event) => {
   const { note } = JSON.parse(event.body);
@@ -12,37 +12,32 @@ const updateNote = async (event) => {
 
   const input = {
     TableName: "NotesTable",
-    Item: {
-      id: { S: id },
-      note: { S: note }
-    }
-  };
-
-  let data = {}
+    Key: {
+      id: { S: id }
+    },
+    UpdateExpression: "SET note = :n",
+    ExpressionAttributeValues: {
+      ":n": { S: note },
+    },
+    ReturnValues: "UPDATED_NEW"
+  }
 
   try {
-    data = await dynamoClient.send(new PutItemCommand(input));
+    const data = await dynamoClient.send(new UpdateItemCommand(input));
+
+    let endDate = new Date();
+    let executionTimeInSeconds = (endDate.getTime() - startDate.getTime()) / 1000;
+    console.log("Execution time:", executionTimeInSeconds);
+  
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        "note": JSON.stringify(data.Attributes) 
+      }),
+    }
   } catch(err) {
     console.log(err);
   }
-
-  const updatedNote = {
-    id: id,
-    note: note
-  }
-
-  let endDate = new Date();
-
-  let executionTimeInSeconds = (endDate.getTime() - startDate.getTime()) / 1000;
-
-  console.log("Execution time:", executionTimeInSeconds);
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      "note": JSON.stringify(updatedNote) 
-    }),
-  };
 };
 
 module.exports = {

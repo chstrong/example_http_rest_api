@@ -27,10 +27,22 @@ const addNote = async (event) => {
     console.log(err);
   }
   
+  // If updating items, it is possible to use ReturnValue: to return the record:
+  // const input = {
+  //   TableName: "NotesTable",
+  //   Item: {
+  //     id: { S: id },
+  //     note: { S: note },
+  //     createdAt: { S: createdAt }
+  //   },
+  //   ReturnValue: "ALL_NEW" <-- WE CAN DO THIS
+  // };
+  // This does not work with the PutItemCommand. So in order to return the record
+  // we need to create it.
   const newNote = {
-    id: id,
-    note: note,
-    createdAt: createdAt
+    id: { S: id },
+    note: { S: note },
+    createdAt: { S: createdAt }
   }
 
   let endDate = new Date();
@@ -41,9 +53,7 @@ const addNote = async (event) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify({
-      "note": JSON.stringify(newNote) 
-    }),
+    body: JSON.stringify(newNote),
   };
 };
 

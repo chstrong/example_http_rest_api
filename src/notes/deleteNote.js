@@ -16,10 +16,8 @@ const deleteNote = async (event) => {
     }
   }
 
-  let data = {}
-
   try {
-    data = await dynamoClient.send(new DeleteItemCommand(input));
+    const data = await dynamoClient.send(new DeleteItemCommand(input));
     
     let endDate = new Date();
     let executionTimeInSeconds = (endDate.getTime() - startDate.getTime()) / 1000;
