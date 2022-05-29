@@ -90,3 +90,6 @@ serverless offline
 ```
 
 To learn more about the capabilities of `serverless-offline`, please refer to its [GitHub repository](https://github.com/dherault/serverless-offline).
+
+# Checkout 99thcloud.com
+https://99thcloud.com/how-to-create-an-aws-lambda-rest-api-with-the-httpapi-and-the-serverless-framework/
