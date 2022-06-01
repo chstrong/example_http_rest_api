@@ -93,3 +93,5 @@ To learn more about the capabilities of `serverless-offline`, please refer to it
 
 # Checkout 99thcloud.com
 https://99thcloud.com/how-to-create-an-aws-lambda-rest-api-with-the-httpapi-and-the-serverless-framework/
+# Or look at the video tutorial
+https://www.youtube.com/watch?v=wiMTGGQsZOA&t=1830s
